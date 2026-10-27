@@ -1,28 +1,27 @@
-import type { ForecastDay, Unit } from '../types/weather';
-import { formatTemperature } from '../lib/temperature';
-import { getWeatherIcon, getWeatherLabel } from '../lib/weatherCodes';
-import { getDayLabel, getShortDate } from '../lib/format';
+import { formatDate, formatTemperature } from '../lib/format';
+import type { ForecastDay, TemperatureUnit } from '../types/weather';
+import WeatherIcon from './WeatherIcon';
 
 interface ForecastCardProps {
   day: ForecastDay;
-  index: number;
-  unit: Unit;
+  unit: TemperatureUnit;
 }
 
-/** Card de um dia da previsão. */
-export default function ForecastCard({ day, index, unit }: ForecastCardProps) {
+export default function ForecastCard({ day, unit }: ForecastCardProps) {
   return (
-    <li className="flex flex-col items-center gap-2 rounded-xl border border-white/10 bg-white/5 p-4 text-center backdrop-blur-md">
-      <p className="font-semibold">{getDayLabel(day.date, index)}</p>
-      <p className="text-xs text-white/50">{getShortDate(day.date)}</p>
-      <span aria-hidden="true" className="text-3xl" title={getWeatherLabel(day.weatherCode)}>
-        {getWeatherIcon(day.weatherCode)}
-      </span>
-      <p className="text-sm">
-        <span className="font-semibold">{formatTemperature(day.max, unit)}</span>{' '}
-        <span className="text-white/50">{formatTemperature(day.min, unit)}</span>
-      </p>
-      <p className="text-xs text-accent-400">💧 {day.precipitationProbability}%</p>
+    <li className="glass flex min-w-0 flex-col items-center gap-3 p-4 text-center">
+      <time dateTime={day.date} className="text-sm font-medium text-slate-200">
+        {formatDate(day.date)}
+      </time>
+      <WeatherIcon condition={day.condition} />
+      <p className="flex-1 text-sm text-slate-300">{day.condition.description}</p>
+      <div className="space-y-1 text-sm">
+        <p>
+          <span className="text-slate-300">Máx. </span>
+          <strong>{formatTemperature(day.maxTemperatureC, unit)}</strong>
+        </p>
+        <p className="text-slate-300">Mín. {formatTemperature(day.minTemperatureC, unit)}</p>
+      </div>
     </li>
   );
 }

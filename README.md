@@ -59,7 +59,7 @@ Cada módulo tem **README.md**, **challenge.md**, **prompts.md** e
 
 ```bash
 pnpm install
-pnpm exec playwright install   # navegadores para os testes E2E
+pnpm exec playwright install --with-deps chromium firefox webkit chrome msedge   # navegadores para os testes E2E
 ```
 
 ### Scripts
@@ -74,11 +74,31 @@ pnpm check           # Biome (lint + formatação)
 pnpm test            # testes unitários (Vitest)
 pnpm test:coverage   # cobertura
 pnpm test:e2e        # testes E2E (Playwright)
+pnpm test:lighthouse # auditoria Lighthouse móvel (LCP e CLS)
 ```
+
+Os testes E2E exercitam Chrome, Firefox, Edge e WebKit, além de perfis móveis
+Android/iOS emulados pelo Playwright. A emulação não substitui a validação em
+aparelhos físicos nem em instalações nativas de Safari.
 
 ---
 
 ## Arquitetura do app
+
+### Etapa atual: integração com Open-Meteo
+
+A tela inicia sem dados meteorológicos. Ao buscar uma localidade,
+[`useWeather`](src/hooks/useWeather.ts) chama
+[`weatherService`](src/services/weatherService.ts) para geocodificação e consulta
+as condições atuais e cinco dias de previsão da primeira cidade encontrada.
+As requisições usam a Open-Meteo diretamente, sem API key ou fallback para mocks.
+A alternância °C/°F converte os valores localmente sem nova consulta.
+
+A interface apresenta loading, vazio e erro com retry da etapa que falhou.
+Não há persistência. Os dados estáticos são usados apenas como fixtures de testes;
+os testes unitários e E2E simulam a rede para serem determinísticos.
+Execute `pnpm dev` para visualizar e `pnpm test:e2e` para verificar os fluxos
+e as larguras de 320, 768 e 1280 pixels.
 
 ```text
 src/

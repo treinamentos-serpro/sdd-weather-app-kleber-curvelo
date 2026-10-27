@@ -1,47 +1,63 @@
-import { useState, type FormEvent } from 'react';
+import type { FormEvent, Ref } from 'react';
+import { useId, useState } from 'react';
 
 interface SearchBarProps {
-  onSearch: (city: string) => void;
-  disabled?: boolean;
+  onSearch: (query: string) => void;
+  inputRef?: Ref<HTMLInputElement>;
+  isLoading?: boolean;
 }
 
-/** Barra de busca de cidade. Bloqueia submit com input vazio. */
-export default function SearchBar({ onSearch, disabled }: SearchBarProps) {
-  const [value, setValue] = useState('');
+export default function SearchBar({ onSearch, inputRef, isLoading = false }: SearchBarProps) {
+  const [query, setQuery] = useState('');
+  const [error, setError] = useState('');
+  const inputId = useId();
+  const errorId = useId();
 
-  function handleSubmit(e: FormEvent) {
-    e.preventDefault();
-    const trimmed = value.trim();
-    if (!trimmed) return;
-    onSearch(trimmed);
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (isLoading) return;
+    if (!query.trim()) {
+      setError('Informe uma localidade para buscar.');
+      return;
+    }
+    setError('');
+    onSearch(query.trim());
   }
 
   return (
-    <form role="search" onSubmit={handleSubmit} className="w-full max-w-md">
-      <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 backdrop-blur-md focus-within:border-accent-500">
-        <span aria-hidden="true" className="text-white/50">
-          🔍
-        </span>
-        <label htmlFor="city-search" className="sr-only">
-          Buscar cidade
-        </label>
+    <form onSubmit={handleSubmit} role="search" className="space-y-2" noValidate>
+      <label htmlFor={inputId} className="block text-sm font-medium text-slate-200">
+        Buscar localidade
+      </label>
+      <div className="flex flex-col gap-3 sm:flex-row">
         <input
-          id="city-search"
-          type="text"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          placeholder="Buscar cidade…"
+          ref={inputRef}
+          id={inputId}
+          type="search"
+          value={query}
+          onChange={(event) => {
+            setQuery(event.target.value);
+            setError('');
+          }}
+          placeholder="Digite o nome da cidade"
           autoComplete="off"
-          className="flex-1 bg-transparent text-white placeholder-white/40 outline-none"
+          aria-invalid={Boolean(error)}
+          aria-describedby={error ? errorId : undefined}
+          className="min-h-12 min-w-0 flex-1 rounded-xl border border-white/15 bg-night-900/60 px-4 text-white placeholder:text-slate-400"
         />
         <button
           type="submit"
-          disabled={disabled || !value.trim()}
-          className="rounded-lg bg-accent-500 px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-accent-600 disabled:cursor-not-allowed disabled:opacity-50"
+          aria-disabled={isLoading}
+          className="min-h-12 rounded-xl bg-accent-600 px-6 font-semibold text-white aria-[disabled=false]:hover:bg-accent-600 aria-disabled:cursor-wait aria-disabled:opacity-60"
         >
-          Buscar
+          {isLoading ? 'Buscando…' : 'Buscar'}
         </button>
       </div>
+      {error && (
+        <p id={errorId} role="alert" className="text-sm text-rose-300">
+          {error}
+        </p>
+      )}
     </form>
   );
 }

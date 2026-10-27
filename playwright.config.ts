@@ -17,8 +17,12 @@ export default defineConfig({
     screenshot: 'only-on-failure',
   },
   projects: [
-    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
-    { name: 'mobile', use: { ...devices['iPhone 13'] } },
+    { name: 'chrome', use: { ...devices['Desktop Chrome'], channel: 'chrome' } },
+    { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
+    { name: 'edge', use: { ...devices['Desktop Edge'], channel: 'msedge' } },
+    { name: 'webkit', use: { ...devices['Desktop Safari'] } },
+    { name: 'android-chrome', use: { ...devices['Pixel 7'], channel: 'chrome' } },
+    { name: 'ios-safari', use: { ...devices['iPhone 13'] } },
   ],
   webServer: {
     command: 'pnpm dev',
