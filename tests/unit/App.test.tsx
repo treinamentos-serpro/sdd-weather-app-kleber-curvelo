@@ -86,9 +86,9 @@ describe('Interface conectada ao serviço meteorológico', () => {
     render(<App />);
     await user.type(screen.getByRole('searchbox'), 'São Paulo{Enter}');
     await screen.findByText('24°C');
-    await user.click(screen.getByRole('button', { name: 'Fahrenheit' }));
-    expect(screen.getByRole('button', { name: 'Fahrenheit' })).toHaveFocus();
-    expect(screen.getByRole('button', { name: 'Fahrenheit' })).toHaveAttribute(
+    await user.click(screen.getByRole('button', { name: '°F, Fahrenheit' }));
+    expect(screen.getByRole('button', { name: '°F, Fahrenheit' })).toHaveFocus();
+    expect(screen.getByRole('button', { name: '°F, Fahrenheit' })).toHaveAttribute(
       'aria-pressed',
       'true',
     );
@@ -107,8 +107,8 @@ describe('Interface conectada ao serviço meteorológico', () => {
       expect(within(day).getByText(`${expected[index][1]}°F`)).toBeInTheDocument();
     });
     expect(screen.getByRole('heading', { name: 'São Paulo' })).toBeInTheDocument();
-    await user.click(screen.getByRole('button', { name: 'Celsius' }));
-    expect(screen.getByRole('button', { name: 'Celsius' })).toHaveFocus();
+    await user.click(screen.getByRole('button', { name: '°C, Celsius' }));
+    expect(screen.getByRole('button', { name: '°C, Celsius' })).toHaveFocus();
     expect(screen.getByText('24°C')).toBeInTheDocument();
     expect(mockWeatherData).toEqual(snapshot);
     expect(searchMock).toHaveBeenCalledTimes(1);

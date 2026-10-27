@@ -7,7 +7,7 @@ export default function EmptyState({ query }: EmptyStateProps) {
     <div role="status" className="glass space-y-2 break-words p-8 text-center">
       <h2 className="text-xl font-semibold">Nenhuma localidade encontrada</h2>
       <p className="text-slate-300">
-        Não há dados de demonstração para “{query}”. Tente buscar São Paulo.
+        Não encontramos “{query}”. Verifique a grafia ou tente outra localidade.
       </p>
     </div>
   );

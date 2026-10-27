@@ -9,8 +9,11 @@ describe('UnitToggle', () => {
     const user = userEvent.setup();
     render(<UnitToggle unit="celsius" onChange={onChange} />);
     expect(screen.getByRole('group', { name: 'Unidade de temperatura' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Celsius' })).toHaveAttribute('aria-pressed', 'true');
-    expect(screen.getByRole('button', { name: 'Fahrenheit' })).toHaveAttribute(
+    expect(screen.getByRole('button', { name: '°C, Celsius' })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
+    expect(screen.getByRole('button', { name: '°F, Fahrenheit' })).toHaveAttribute(
       'aria-pressed',
       'false',
     );

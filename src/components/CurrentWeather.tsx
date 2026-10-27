@@ -17,7 +17,7 @@ export default function CurrentWeather({ data, unit, headingRef }: CurrentWeathe
     >
       <div className="min-w-0">
         <p className="mb-2 text-sm font-medium uppercase tracking-widest text-accent-400">
-          Condições atuais · exemplo
+          Condições atuais
         </p>
         <h2
           ref={headingRef}

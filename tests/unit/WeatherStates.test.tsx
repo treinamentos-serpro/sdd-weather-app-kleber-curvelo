@@ -18,7 +18,9 @@ describe('Estados da consulta', () => {
     render(<EmptyState query="Recife" />);
     expect(screen.getByRole('status')).toHaveTextContent('Nenhuma localidade encontrada');
     expect(screen.getByRole('status')).toHaveTextContent('Recife');
-    expect(screen.getByRole('status')).toHaveTextContent('Tente buscar São Paulo');
+    expect(screen.getByRole('status')).toHaveTextContent(
+      'Verifique a grafia ou tente outra localidade',
+    );
   });
 
   it('comunica erro e permite retry por teclado', async () => {

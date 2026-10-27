@@ -74,7 +74,12 @@ pnpm check           # Biome (lint + formatação)
 pnpm test            # testes unitários (Vitest)
 pnpm test:coverage   # cobertura
 pnpm test:e2e        # testes E2E (Playwright)
+pnpm test:lighthouse # auditoria Lighthouse móvel (LCP e CLS)
 ```
+
+Os testes E2E exercitam Chrome, Firefox, Edge e WebKit, além de perfis móveis
+Android/iOS emulados pelo Playwright. A emulação não substitui a validação em
+aparelhos físicos nem em instalações nativas de Safari.
 
 ---
 

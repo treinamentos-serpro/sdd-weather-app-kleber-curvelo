@@ -16,7 +16,7 @@ export default function UnitToggle({ unit, onChange }: UnitToggleProps) {
         <button
           key={value}
           type="button"
-          aria-label={value === 'celsius' ? 'Celsius' : 'Fahrenheit'}
+          aria-label={value === 'celsius' ? '°C, Celsius' : '°F, Fahrenheit'}
           aria-pressed={unit === value}
           onClick={() => onChange(value)}
           className={`min-h-11 min-w-12 rounded-lg px-3 font-semibold ${
