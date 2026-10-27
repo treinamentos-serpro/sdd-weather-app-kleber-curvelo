@@ -1,47 +1,45 @@
-/**
- * Contratos de domínio compartilhados do Weather App.
- *
- * Decisão de arquitetura: as temperaturas são sempre armazenadas em Celsius
- * internamente e convertidas apenas na camada de apresentação. Assim, a troca
- * de unidade (C/F) nunca dispara um novo request.
- */
+export type TemperatureUnit = 'celsius' | 'fahrenheit';
 
-export type Unit = 'celsius' | 'fahrenheit';
-
-/** Resultado da API de geocoding (uma cidade). */
 export interface City {
-  id: number;
   name: string;
-  country: string;
-  /** Estado/região, quando disponível (ajuda a desambiguar homônimos). */
-  admin1?: string;
+  region?: string;
+  country?: string;
   latitude: number;
   longitude: number;
+  timezone?: string;
 }
 
-/** Condições atuais. Temperatura sempre em °C. */
+export interface WeatherCondition {
+  code: number;
+  description: string;
+}
+
 export interface CurrentWeather {
-  temperature: number;
-  weatherCode: number;
-  humidity: number;
-  windSpeed: number;
-  pressure: number;
-  precipitation: number;
-  time: string;
+  temperatureC: number;
+  condition: WeatherCondition;
 }
 
-/** Um dia da previsão. Temperaturas sempre em °C. */
 export interface ForecastDay {
   date: string;
-  min: number;
-  max: number;
-  weatherCode: number;
-  precipitationProbability: number;
+  condition: WeatherCondition;
+  minTemperatureC: number;
+  maxTemperatureC: number;
 }
 
-/** Agregado entregue à UI: cidade + clima atual + 5 dias de previsão. */
 export interface WeatherData {
   city: City;
   current: CurrentWeather;
-  forecast: ForecastDay[];
+  forecast: [ForecastDay, ForecastDay, ForecastDay, ForecastDay, ForecastDay];
 }
+
+export type RetryContext =
+  | { operation: 'geocoding'; query: string }
+  | { operation: 'forecast'; query: string; city: City };
+
+export type WeatherState =
+  | { status: 'idle' }
+  | { status: 'loading-geocoding'; query: string }
+  | { status: 'loading-forecast'; query: string; city: City }
+  | { status: 'empty'; query: string }
+  | { status: 'error'; query: string; retry: RetryContext }
+  | { status: 'success'; data: WeatherData };

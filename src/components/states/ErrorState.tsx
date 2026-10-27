@@ -1,20 +1,23 @@
 interface ErrorStateProps {
-  message: string;
+  message?: string;
   onRetry: () => void;
 }
 
-/** Estado de erro com ação de "tentar novamente". */
-export default function ErrorState({ message, onRetry }: ErrorStateProps) {
+export default function ErrorState({
+  message = 'Não foi possível obter os dados meteorológicos.',
+  onRetry,
+}: ErrorStateProps) {
   return (
-    <div role="alert" className="flex flex-col items-center gap-4 py-16 text-center">
-      <span aria-hidden="true" className="text-4xl">
-        ⚠️
-      </span>
-      <p className="text-white/80">{message}</p>
+    <div className="glass space-y-4 p-8 text-center">
+      <div role="alert" aria-live="assertive" aria-atomic="true">
+        <h2 className="text-xl font-semibold">Não foi possível obter os dados meteorológicos.</h2>
+        <p className="text-slate-300">{message}</p>
+        <p className="text-slate-300">Tente novamente ou faça uma nova busca.</p>
+      </div>
       <button
         type="button"
         onClick={onRetry}
-        className="rounded-lg bg-accent-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-accent-600"
+        className="min-h-11 rounded-xl bg-accent-600 px-5 font-semibold hover:bg-accent-500"
       >
         Tentar novamente
       </button>
