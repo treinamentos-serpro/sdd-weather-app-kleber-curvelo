@@ -8,7 +8,10 @@ interface WeatherIconProps {
 export default function WeatherIcon({ condition, className = 'h-12 w-12' }: WeatherIconProps) {
   const sunny = condition.code === 0;
   const partlyCloudy = condition.code === 1 || condition.code === 2;
-  const rainy = condition.code >= 51 && condition.code <= 99;
+  const rainy =
+    (condition.code >= 51 && condition.code <= 67) ||
+    (condition.code >= 80 && condition.code <= 82) ||
+    (condition.code >= 95 && condition.code <= 99);
 
   return (
     <svg

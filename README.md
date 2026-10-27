@@ -59,7 +59,7 @@ Cada módulo tem **README.md**, **challenge.md**, **prompts.md** e
 
 ```bash
 pnpm install
-pnpm exec playwright install   # navegadores para os testes E2E
+pnpm exec playwright install --with-deps chromium firefox webkit chrome msedge   # navegadores para os testes E2E
 ```
 
 ### Scripts

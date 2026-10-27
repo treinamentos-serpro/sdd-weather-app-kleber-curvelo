@@ -48,7 +48,7 @@ export default function SearchBar({ onSearch, inputRef, isLoading = false }: Sea
         <button
           type="submit"
           aria-disabled={isLoading}
-          className="min-h-12 rounded-xl bg-accent-600 px-6 font-semibold text-white aria-[disabled=false]:hover:bg-accent-500 aria-disabled:cursor-wait aria-disabled:opacity-60"
+          className="min-h-12 rounded-xl bg-accent-600 px-6 font-semibold text-white aria-[disabled=false]:hover:bg-accent-600 aria-disabled:cursor-wait aria-disabled:opacity-60"
         >
           {isLoading ? 'Buscando…' : 'Buscar'}
         </button>

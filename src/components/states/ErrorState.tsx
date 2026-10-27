@@ -17,7 +17,7 @@ export default function ErrorState({
       <button
         type="button"
         onClick={onRetry}
-        className="min-h-11 rounded-xl bg-accent-600 px-5 font-semibold text-white hover:bg-accent-500"
+        className="min-h-11 rounded-xl bg-accent-600 px-5 font-semibold text-white hover:bg-accent-600"
       >
         Tentar novamente
       </button>
